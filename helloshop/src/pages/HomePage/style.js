@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import BtnComponent from "../../components/BtnComponent/BtnComponent";
 
 export const TypeProductsStyle = styled.div`
     display: flex;
@@ -7,4 +8,23 @@ export const TypeProductsStyle = styled.div`
     gap: 20px;
     justify-content: flex-start;
     border-bottom: 2px solid red;
+    height: 40px;
+    font-weight: bold;
+`
+export const ButtonMore = styled(BtnComponent)`
+   background: red;
+   &:hover {
+
+    background-color: #FFFFFF;
+    span{
+        color: red;
+    }
+   }
+`
+export const ProductStyle = styled.div`
+display: flex;
+justify-content:center;
+gap:15px;
+margi-top: 20px;
+flex-wrap: wrap;
 `

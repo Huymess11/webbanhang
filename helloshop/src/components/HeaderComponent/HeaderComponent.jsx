@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col} from 'antd'
+import {Badge, Col} from 'antd'
 import { AccountHeader, TextHeader, WrapperHeader } from './style'
 import Search from 'antd/es/transfer/search'
 import {
@@ -37,7 +37,9 @@ const HeaderComponent = () => {
          </AccountHeader>
          <TextHeader>
          <div>
+         <Badge count={4} size='small'>
          <ShoppingCartOutlined style={{fontSize:'30px'}}/>
+         </Badge>
          <span style={{fontSize:'16px'}}>Giỏ hàng</span>
          </div>
          </TextHeader>
