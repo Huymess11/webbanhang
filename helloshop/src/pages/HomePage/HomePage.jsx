@@ -11,17 +11,22 @@ const HomePage = () => {
     const typeProducts = ['Điện thoại ','Laptop','Tai nghe','Bàn phím','Chuột']
   return (
    <>
-    <div style={{padding:'0 120px'}}>
+    <div style={{width:'1270px',margin:'0 auto'}}>
     <TypeProductsStyle>
         {typeProducts.map((item)=>{
             return(
-                <TypeProducts key={item} name ={item}/>
+                <div style={{paddingLeft:'20px'}}>
+                    <TypeProducts key={item} name ={item}/>
+                </div>
             )
         })}
     </TypeProductsStyle>
     </div>
-    <div style={{backgroundColor:'#DDDDDD',padding:'10px 120px',height:'10000px'}}>
-    <SliderComponent arrImg={[anh1,anh2,anh3]}/>
+    <div style={{backgroundColor:'#DDDDDD',margin:'0 auto',height:'10000px'}}>
+        <div style={{alignItems:'center'}}>
+            <SliderComponent arrImg={[anh1,anh2,anh3]}/>
+        </div>
+   
     <ProductStyle>
         <ProductCardComponent/>
         <ProductCardComponent/>

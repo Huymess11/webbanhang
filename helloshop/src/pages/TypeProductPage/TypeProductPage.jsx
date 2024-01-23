@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import ProductCardComponent from '../../components/ProductCardComponent/ProductCardComponent'
 import { TypeProductStyle } from './style'
+import { Pagination } from 'antd'
 
 const TypeProductPage = () => {
-  return (
-   
-    <div style={{backgroundColor:'#DDDDDD',height:'10000px'}}>
+  const onChange = ()=>{}
+   return(
+    <div style={{backgroundColor:'#DDDDDD'}}>
+    <div >
         <TypeProductStyle>
 
             <ProductCardComponent/>
@@ -14,11 +16,13 @@ const TypeProductPage = () => {
             <ProductCardComponent/>
             <ProductCardComponent/>
             <ProductCardComponent/>
-
+            
         </TypeProductStyle>
+        <Pagination  defaultCurrent={2} total={100} onChange={onChange} style ={{textAlign:'center',marginTop:'30px'}}/>
     </div>
+    
 
-
+    </div>
   )
 }
 

@@ -25,6 +25,6 @@ export const ProductStyle = styled.div`
 display: flex;
 justify-content:center;
 gap:15px;
-margi-top: 20px;
+margin-top: 30px;
 flex-wrap: wrap;
 `
