@@ -16,6 +16,10 @@ const TypeProductPage = () => {
             <ProductCardComponent/>
             <ProductCardComponent/>
             <ProductCardComponent/>
+            <ProductCardComponent/>
+            <ProductCardComponent/>
+            <ProductCardComponent/>
+            <ProductCardComponent/>
             
         </TypeProductStyle>
         <Pagination  defaultCurrent={2} total={100} onChange={onChange} style ={{textAlign:'center',marginTop:'30px'}}/>
