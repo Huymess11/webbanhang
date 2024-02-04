@@ -1,14 +1,15 @@
 import { Input } from 'antd'
-import React, { useState } from 'react'
-import BtnComponent from '../BtnComponent/BtnComponent'
+import React from 'react'
 
-const InputForm = (value) => {
-    const {valueInput,setValueInput} = useState('')
-    const {placeholder = "Nhập tên", ...rests} = value
+const InputForm = (props) => {
+    const {placeholder = "Nhập tên", ...rests} = props
+    const handleOnchangeInput = (e)=>{
+      props.onChange(e.target.value)
+    }
   return (
-    <div>
-        <Input placeholder={placeholder} valueInput={valueInput} {...rests}/>
-    </div>
+    
+        <Input placeholder={placeholder} value={props.value} {...rests} onChange={handleOnchangeInput}/>
+  
 
   )
 }

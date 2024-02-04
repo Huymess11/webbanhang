@@ -8,16 +8,15 @@ const authMiddleWare = (req,res,next)=>{
     jwt.verify(token, process.env.ACCESS_TOKEN, function(err, user) {
         if(err){
             return res.status(404).json({
-                message:'the authentication',
+                message:'Not the admin',
                 status:'ERR'
             })
         }
-        const {payload} = user
-        if(payload?.isAdmin){
+        if(user?.isAdmin){
             next()
         }else{
             return res.status(404).json({
-                message:'the authentication',
+                message:'Not the admin',
                 status:'ERR'
             })
         }
@@ -33,8 +32,7 @@ const authUserMiddleWare = (req,res,next)=>{
                 status:'ERR'
             })
         }
-        const {payload} = user
-        if(payload?.isAdmin || payload?.id === userId){
+        if(user?.isAdmin || user?.id === userId){
             next()
         }else{
             return res.status(404).json({
