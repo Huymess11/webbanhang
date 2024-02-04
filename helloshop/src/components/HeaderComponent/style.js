@@ -18,4 +18,12 @@ export const AccountHeader = styled.div`
     gap: 10px;
     font-weight: bold;
 `
+export const Popup = styled.p`
+    cursor: pointer;
+    &:hover{
+        background: grey;
+        color: white;
+    }
+
+`
     

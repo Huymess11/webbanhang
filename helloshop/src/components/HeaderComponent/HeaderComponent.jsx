@@ -1,7 +1,9 @@
 import React from 'react'
-import {Badge, Col} from 'antd'
-import { AccountHeader, TextHeader, WrapperHeader } from './style'
+import {Badge, Button, Col, Popover} from 'antd'
+import { AccountHeader, Popup, TextHeader, WrapperHeader } from './style'
 import Search from 'antd/es/transfer/search'
+import { resetUser } from '../../redux/slide/userSlide'
+import * as UserService from '../../services/UserService'
 import {
     UserOutlined,
     CaretDownOutlined,
@@ -9,13 +11,24 @@ import {
   } from '@ant-design/icons';
 import BtnSearch from '../BtnSearch/BtnSearch';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const HeaderComponent = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector((state) => state.user)
+  const handleLogout = async()=>{
+    await UserService.logoutUser()
+    dispatch(resetUser())
+  }
   const handleNavigateLogin = ()=>{
     navigate('/signin')
   }
+  const content = (
+    <div>
+      <Popup>Thông tin người dùng</Popup>
+      <Popup onClick={handleLogout}>Đăng xuất</Popup>
+    </div>
+  );
   return (
     <div>
       <WrapperHeader gutter={20}style={{alignItems:'center'}}>
@@ -34,7 +47,12 @@ const HeaderComponent = () => {
 
          <UserOutlined style={{fontSize:'30px'}} />
           {user?.name ?(
-            <div style={{cursor:'pointer',marginTop:'5px'}}>{user.name}</div>
+            <>
+           
+            <Popover content={content} trigger="click">
+              <div style={{cursor:'pointer',marginTop:'5px'}}>{user.name}</div>
+            </Popover>
+            </>
           ):(
             <div onClick={handleNavigateLogin} style={{cursor:'pointer'}}>
             <span>Đăng nhập</span>

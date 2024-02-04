@@ -23,3 +23,8 @@ export const refreashToken = async()=>{
     })
     return res.data
 }
+
+export const logoutUser = async()=>{
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/logout`)
+    return res.data
+}
