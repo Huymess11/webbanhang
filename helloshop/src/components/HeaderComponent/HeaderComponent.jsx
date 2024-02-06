@@ -12,7 +12,7 @@ import {
 import BtnSearch from '../BtnSearch/BtnSearch';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-const HeaderComponent = () => {
+const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
   const dispatch = useDispatch()
   const [name,setName] = useState('')
   const [avatar,setAvatar] = useState('')
@@ -32,23 +32,30 @@ const HeaderComponent = () => {
   const content = (
     <div>
       <Popup onClick={()=>navigate('/userinfor')}>Thông tin người dùng</Popup>
+      {user?.isAdmin && (
+        <Popup onClick={()=>navigate('/system/admin')}>Quản lý</Popup>
+      )}
+      
       <Popup onClick={handleLogout}>Đăng xuất</Popup>
     </div>
   );
 
   return (
     <div>
-      <WrapperHeader gutter={20}style={{alignItems:'center'}}>
+      <WrapperHeader gutter={20}style={{alignItems:'center',justifyContent:isHiddenCart && isHiddenSearch?'space-between':'unset'}}>
       <Col span={6}>
       <TextHeader>HELLO.SHOP</TextHeader>  
       </Col>
-      <Col span={12}>
-      <BtnSearch
-      size = "large"
-      text = "Tìm kiếm"
-      placeholder="Tìm kiếm điện thoại"
-      />
-      </Col>
+      {!isHiddenSearch && (
+          <Col span={12}>
+          <BtnSearch
+          size = "large"
+          text = "Tìm kiếm"
+          placeholder="Tìm kiếm điện thoại"
+          />
+          </Col>
+      )}
+     
       <Col span={6} style={{display: 'flex',gap:'10px'}} >
         <AccountHeader>
           {avatar?(
@@ -60,7 +67,7 @@ const HeaderComponent = () => {
           {user?.access_token ?(
             <>
            
-            <Popover content={content} trigger="click">
+            <Popover content={content} trigger="click" >
               <div style={{cursor:'pointer',marginTop:'5px'}}>{name?.length ? name : user?.email}</div>
             </Popover>
             </>
@@ -76,12 +83,15 @@ const HeaderComponent = () => {
          
          </AccountHeader>
          <TextHeader>
-         <div>
-         <Badge count={4} size='small'>
-         <ShoppingCartOutlined style={{fontSize:'30px'}}/>
-         </Badge>
-         <span style={{fontSize:'16px'}}>Giỏ hàng</span>
-         </div>
+          {!isHiddenCart && (
+            <div>
+            <Badge count={4} size='small'>
+            <ShoppingCartOutlined style={{fontSize:'30px'}}/>
+           </Badge>
+           <span style={{fontSize:'16px'}}>Giỏ hàng</span>
+            </div>
+          )}
+         
          </TextHeader>
       </Col>
     </WrapperHeader>

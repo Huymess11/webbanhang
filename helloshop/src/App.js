@@ -15,7 +15,7 @@ import * as UserService from './services/UserService'
  function App() {
   const dispatch = useDispatch()
   const user = useSelector((state)=>state.user)
-  
+
   // useEffect(()=>{
   //   fetchApi()
   // },[])
@@ -68,7 +68,7 @@ import * as UserService from './services/UserService'
             const checkAdmin = !route.isPrivate || user.isAdmin  
             const Layout = route.header ? DefaultComponent : Fragment
             return(
-              <Route key={route.path} path={checkAdmin&&route.path} element={
+              <Route key={route.path} path={checkAdmin?route.path:'*'} element={
               <Layout>
                 <Page/>
               </Layout>
