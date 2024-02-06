@@ -21,8 +21,7 @@ export const AccountHeader = styled.div`
 export const Popup = styled.p`
     cursor: pointer;
     &:hover{
-        background: grey;
-        color: white;
+        color: red;
     }
 
 `
