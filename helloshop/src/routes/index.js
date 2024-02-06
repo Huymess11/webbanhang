@@ -1,3 +1,4 @@
+import AdminPage from "../pages/AdminPage/AdminPage";
 import HomePage from "../pages/HomePage/HomePage";
 import OrderPage from "../pages/OrderPage/OrderPage";
 import ProductDetailPage from "../pages/ProductDetailPage/ProductDetailPage";
@@ -47,5 +48,11 @@ export const routes = [
         path:'/userinfor',
         page:UserInforPage,
         header: true
+    },
+    {
+        path:'system/admin',
+        page:AdminPage,
+        header: false,
+        isPrivate: true
     },
 ]

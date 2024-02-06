@@ -3,7 +3,9 @@ import Meta from 'antd/es/card/Meta'
 import React from 'react'
 import { CardStyle, NameProduct, ProductPrice, RateProduct, SaleProductPrice } from './style'
 import{StarFilled}from '@ant-design/icons'
-const ProductCardComponent = () => {
+const ProductCardComponent = (props) => {
+  const {countInStock,description,image,name,price,rating,type,discount} = props
+
   return (
     <CardStyle
     hoverable
@@ -12,14 +14,14 @@ const ProductCardComponent = () => {
     style={{ width: 200 }}
     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
   >
-  <NameProduct>Iphone</NameProduct>
+  <NameProduct>{name}</NameProduct>
   <RateProduct>
     <span>
-     <span>4.5</span><StarFilled style={{fontSize:'15px',color:'yellow'}} />
+     <span>{rating}</span><StarFilled style={{fontSize:'15px',color:'yellow'}} />
     </span>
     <span>| HOT</span>
     </RateProduct>
-  <ProductPrice>4.590.000đ<SaleProductPrice>4.890.000đ</SaleProductPrice></ProductPrice>
+  <ProductPrice>{price}<SaleProductPrice>{discount}</SaleProductPrice></ProductPrice>
   </CardStyle>
   )
 }

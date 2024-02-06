@@ -7,8 +7,19 @@ import anh2 from '../../img/anh2.webp'
 import anh3 from '../../img/anh3.webp'
 import ProductCardComponent from '../../components/ProductCardComponent/ProductCardComponent'
 import BtnComponent from '../../components/BtnComponent/BtnComponent'
+import { useQuery } from '@tanstack/react-query'
+import * as ProductService from '../../services/ProductService'
+
 const HomePage = () => {
     const typeProducts = ['Điện thoại ','Laptop','Tai nghe','Bàn phím','Chuột']
+    
+    const fetchProductAll = async()=>{
+       const res =  await ProductService.getAllProduct()
+       console.log('res',res)
+       return res
+    }
+    const {data:products} = useQuery({ queryKey: 'product', queryFn: fetchProductAll,retry:3,retryDelay:1000 })
+    console.log('data',products)
   return (
    <>
     <div style={{width:'1270px',margin:'0 auto'}}>
@@ -28,15 +39,16 @@ const HomePage = () => {
         </div>
    
     <ProductStyle>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
-        <ProductCardComponent/>
+        {products?.data.map((product)=>{
+            return(
+                <ProductCardComponent key={product._id} countInStock={product.countInStock} description = {product.description}
+                image = {product.image} name = {product.name}
+                price = {product.price} rating = {product.rating}
+                type = {product.type} discount = {product.discount}/>
+            )
+        })}
+        
+        
     </ProductStyle>
     <div style={{justifyContent:'center', marginTop:'10px',display:'flex'}}>
         <ButtonMore textBtn="Xem thêm" type="outline"styleBtn={{

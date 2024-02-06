@@ -8,13 +8,14 @@ import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { isString } from './utils'
 import { jwtDecode } from 'jwt-decode'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { updateUser } from './redux/slide/userSlide'
 import * as UserService from './services/UserService'
 
  function App() {
   const dispatch = useDispatch()
-
+  const user = useSelector((state)=>state.user)
+  
   // useEffect(()=>{
   //   fetchApi()
   // },[])
@@ -64,9 +65,10 @@ import * as UserService from './services/UserService'
         <Routes>
           {routes.map((route)=>{
             const Page = route.page
+            const checkAdmin = !route.isPrivate || user.isAdmin  
             const Layout = route.header ? DefaultComponent : Fragment
             return(
-              <Route key={route.path} path={route.path} element={
+              <Route key={route.path} path={checkAdmin&&route.path} element={
               <Layout>
                 <Page/>
               </Layout>
