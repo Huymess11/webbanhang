@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { getItem } from '../../utils';
 import {CodeSandboxOutlined,UserOutlined,AppstoreOutlined,ShoppingCartOutlined} from '@ant-design/icons'
 import HeaderComponent from '../../components/HeaderComponent/HeaderComponent';
+import AdminUserComponent from '../../components/AdminUserComponent/AdminUserComponent';
+import AdminProductConponent from '../../components/AdminProductComponent/AdminProductConponent';
 const AdminPage = () => {
     const items = [
         getItem('Người dùng', 'users', <UserOutlined />),
@@ -10,36 +12,43 @@ const AdminPage = () => {
         
       ];
 
-    const rootSubmenuKeys = ['user','product']
-    const [openKeys,setOpenKeys] = useState(['user'])
-    const onOpenChange = (keys)=>{
-        const latestOpenKey = keys.find((key)=>openKeys.indexOf(key)===-1)
-        if(rootSubmenuKeys.indexOf(latestOpenKey)=== -1){
-            setOpenKeys(keys)
-        }else{
-            setOpenKeys(latestOpenKey ? [latestOpenKey]:[])
-        }
-    };
-    const [key,setKey] = useState('')
-    const handleOnClick = (key)=>{
+    const rootSubmenuKeys = ['users','products']
+    
+    
+    const [keyselect,setKey] = useState('')
+    const renderPage = (key)=>{
+      switch(key){
+        case 'users':
+          return (
+            <AdminUserComponent/>
+          )
+        case 'products':
+          return (
+            <AdminProductConponent/>
+          )
+          default:
+          return <></>
+      }
+    }
+    const handleOnClick = ({key})=>{
         setKey(key)
     }
+    console.log('keyselect',keyselect)
   return (
     <>
     <HeaderComponent isHiddenSearch isHiddenCart/>
     <div style={{display:'flex'}}>
       <Menu
       mode = "inline"
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
       style={{
-        width:256,
+        width:"256px",
+        boxShadow:'1px 1px black'
       }}
       items = {items}
       onClick={handleOnClick}
     />
-        <div style={{flex:1}}>
-            hello
+        <div style={{flex:1,padding:'15px'}}>
+            {renderPage(keyselect)}
         </div>
     </div>
     </>

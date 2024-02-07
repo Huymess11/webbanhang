@@ -43,20 +43,20 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
   return (
     <div>
       <WrapperHeader gutter={20}style={{alignItems:'center',justifyContent:isHiddenCart && isHiddenSearch?'space-between':'unset'}}>
-      <Col span={6}>
+      <Col span={5}>
       <TextHeader>HELLO.SHOP</TextHeader>  
       </Col>
       {!isHiddenSearch && (
-          <Col span={12}>
+          <Col span={11.2}>
           <BtnSearch
           size = "large"
           text = "Tìm kiếm"
-          placeholder="Tìm kiếm điện thoại"
+          placeholder="Tìm kiếm sản phẩm"
           />
           </Col>
       )}
      
-      <Col span={6} style={{display: 'flex',gap:'10px'}} >
+      <Col span={7.7} style={{display: 'flex',gap:'10px'}} >
         <AccountHeader>
           {avatar?(
             <img src={avatar} alt='avatar' style={{width:'30px',height:'30px',borderRadius:'50%',objectFit:'cover' }}/>
@@ -67,8 +67,8 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
           {user?.access_token ?(
             <>
            
-            <Popover content={content} trigger="click" >
-              <div style={{cursor:'pointer',marginTop:'5px'}}>{name?.length ? name : user?.email}</div>
+            <Popover content={content} trigger="click"  >
+              <div style={{cursor:'pointer',marginTop:'5px', width:'130px'}}>{name?.length ? name : user?.email}</div>
             </Popover>
             </>
           ):(
