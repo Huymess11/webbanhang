@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ProductHeader } from './style'
-import { Button, Form, Input, Modal, Space } from 'antd'
+import { Button, Form, Input, Modal, Select, Space } from 'antd'
 import {PlusOutlined,ClearOutlined,EditFilled,SearchOutlined} from '@ant-design/icons'
 import TableComponent from '../TableComponent/TableComponent'
 import InputCompnent from '../InputComponent/InputCompnent'
 import { UploadFile } from '../../pages/UserInfor/style'
-import { getBase64 } from '../../utils'
+import { getBase64, renderOption } from '../../utils'
 import * as message from '../../components/MessageComponent/MessageComponent'
 import * as ProductService from '../../services/ProductService'
 import { useMutationHK } from '../../hook/useMutaionHK'
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import ConfirmComponent from '../ConfirmComponent/ConfirmComponent'
 
 const AdminProductConponent = () => {
+  const [typeSelect,setTypeSelect]=useState('')
   const [isModalOpen,setIsModalOpen] = useState(false)
   const user = useSelector((state) => state?.user)
   const [openDrawer,setOpenDrawer]= useState(false)
@@ -31,7 +32,8 @@ const AdminProductConponent = () => {
     description:'',
     rating:'',
     image:'',
-    countInStock:''
+    countInStock:'',
+    newtype:''
   })
   
   const [stateDetail,setStateDetail] = useState({
@@ -113,11 +115,16 @@ const AdminProductConponent = () => {
     const res = await ProductService.getAllProduct()
     return res
   }
+  const fetchAllType = async()=>{
+    const res = await ProductService.GetAllType()
+    return res
+}
   const {data,isSuccess,isError} = mutation
   const {data:dataUpdate,isSuccess:isSuccessUpdate,isError:isErrorUpdate} = mutationUpdate
   const {data:dataDelete,isSuccess:isSuccessDelete,isError:isErrorDelete} = mutationDelete
 
   const queryProduct = useQuery({queryKey:['products'],queryFn:getAllProduct})
+  const typeProduct = useQuery({queryKey:['typeproduct'],queryFn:fetchAllType})
   const {data:products} = queryProduct
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -315,6 +322,7 @@ const AdminProductConponent = () => {
       countInStock: ''
     })
   };
+
   useEffect(()=>{
     
     if(isSuccessUpdate && dataUpdate?.status === "OK"){
@@ -326,7 +334,16 @@ const AdminProductConponent = () => {
     }
   },[isSuccessUpdate])
   const onFinish = ()=>{
-    mutation.mutate(state,{onSettled:()=>{
+    const params = {
+      name:state.name,
+      type:state.type==='add' ?state.newtype:state.type,
+      price:state.price,
+      description:state.description,
+      rating:state.rating,
+      image:state.image,
+      countInStock:state.countInStock
+    }
+    mutation.mutate(params,{onSettled:()=>{
       queryProduct.refetch()
     }})
   }
@@ -369,7 +386,16 @@ const onFinishUpdate =()=>{
     }}
     )
 }
-console.log('dataUpdate',data)
+const handleChangeSelect = (value)=>{
+    
+
+      setState({
+        ...state,
+        type:value
+      })
+
+   
+}
   return (
     <div>
       <div>
@@ -387,7 +413,7 @@ console.log('dataUpdate',data)
     };
   }}/>
         </div>
-        <Modal title="Nhập thông tin sản phẩm" open={isModalOpen} footer={null}  onCancel={handleCancel}>
+        <Modal forceRender title="Nhập thông tin sản phẩm" open={isModalOpen} footer={null}  onCancel={handleCancel}>
   <Form
     name="basic"
     labelCol={{ span: 8 }}
@@ -410,8 +436,30 @@ console.log('dataUpdate',data)
       name="type"
       rules={[{ required: true, message: 'Hãy nhập loại!' }]}
     >
-      <InputCompnent value={state.type} onChange = {handleOnchange} name = 'type'/>
+      
+      <Select
+      name = 'type'
+      value = {state.type}
+      // defaultValue="lucy"
+      // style={{ width: 120 }}
+      onChange={handleChangeSelect}
+      options={renderOption(typeProduct?.data?.data)}
+    />
+    
     </Form.Item>
+    {state.type === 'add'&&(
+      <Form.Item
+      label="Loại mới"
+      name="newtype"
+      rules={[{ required: true, message: 'Hãy nhập loại!' }]}
+    >
+     
+      <InputCompnent value={state.newtype} onChange = {handleOnchange} name ='newtype' />
+    
+    </Form.Item>
+    )}
+    
+    
     <Form.Item
       label="Số lượng"
       name="countInStock"

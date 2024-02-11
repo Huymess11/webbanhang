@@ -1,28 +1,46 @@
-import { Col, Image, InputNumber, Row } from 'antd'
-import React from 'react'
-import xiaomi from '../../img/xiaomi.webp'
+import { Col, Image, InputNumber, Rate, Row } from 'antd'
+import React, { useState } from 'react'
 import { NameProductStyle, ProductDes, ProductPrice } from './style'
 import {StarFilled,PlusOutlined,MinusOutlined} from '@ant-design/icons'
 import BtnComponent from '../BtnComponent/BtnComponent'
-const ProductDetailComponent = () => {
-    const onChange = ()=> {}
+import * as ProductService from '../../services/ProductService'
+import { useQuery } from '@tanstack/react-query'
+const ProductDetailComponent = ({idProduct}) => {
+    
+  const [numProduct,setNumProduct]=useState(1)
+  const onChange = (value)=> {
+    setNumProduct(value)
+  }
+  const fetchGetDetailProduct = async(context)=>{
+    const id = context?.queryKey && context?.queryKey[1]
+    if(id){
+      const res = await ProductService.getDetailProduct(id)
+      return res?.data
+    }
+   
+  }
+    const {data:productDetail} = useQuery({ queryKey: ['productdetail',idProduct], queryFn: fetchGetDetailProduct,enabled:!!idProduct})
+
+    
   return (
     <div>
       <Row style={{padding:'20px', background:'white', borderRadius:'10px'}}>
         <Col span={10}>
-            <Image src={xiaomi} alt="imgproduct" preview='false'/>
+            <Image src={productDetail?.image} alt="imgproduct" preview='false'/>
         </Col>
-        <Col span={14}>
-            <NameProductStyle>Xiaomi Redmi Note 13 6GB 128GB</NameProductStyle>
+        <Col span={14} style={{paddingLeft:'30px'}}>
+
+            <NameProductStyle>{productDetail?.name}</NameProductStyle>
             <div>
-                <StarFilled style={{fontSize:'15px',color:'yellow'}} />
+                
+                <Rate allowHalf defaultValue={productDetail?.rating} value = {productDetail?.rating}/>
+                
             </div>
-            <ProductPrice><h2>3.450.000đ</h2></ProductPrice>
-            <ProductDes>Bảo hành 18 tháng tại trung tâm bảo hành Chính hãng. 
-                1 đổi 1 trong 30 ngày nếu có lỗi phần cứng từ nhà sản xuất. </ProductDes>
+            <ProductPrice><h2>{productDetail?.price.toLocaleString()}</h2></ProductPrice>
+            <ProductDes>{productDetail?.description}</ProductDes>
                 <div style={{marginTop:'20px'}}>
                     <b>Số lượng: </b>
-                    <InputNumber min={0} defaultValue={3} onChange={onChange} size='small'/>
+                    <InputNumber min={0} defaultValue={1} value = {Number(numProduct)} onChange={onChange}  size='small'/>
                 </div>
                 <div style={{marginTop:'20px'}}>
                     <BtnComponent size={40} textBtn="Mua" styleBtn={{backgroundColor:'red',fontWeight:'bold',color:'white',height:'40px'}}></BtnComponent>

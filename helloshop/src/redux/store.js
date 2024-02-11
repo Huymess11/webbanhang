@@ -4,7 +4,7 @@ import userReducer from './slide/userSlide'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    product: counterReducer,
     user: userReducer
   },
 })

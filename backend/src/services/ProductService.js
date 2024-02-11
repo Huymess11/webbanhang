@@ -149,11 +149,30 @@ const getDetailProduct=(id)=>{
         }
     })
 }
+const getAllType=()=>{
+    return new Promise(async(resolve,reject)=>{
+       
+        try{
+           
+            const allType = await Product.distinct('type')
+            
+                resolve({
+                    status:'OK',
+                    message:'SUCCESS',
+                    data: allType,
+                })
 
+           
+        }catch(e){
+            reject(e)
+        }
+    })
+}
 module.exports = {
     createProduct,
     updateProduct,
     getDetailProduct,
     deleteProduct,
-    getAllProduct
+    getAllProduct,
+    getAllType
 }

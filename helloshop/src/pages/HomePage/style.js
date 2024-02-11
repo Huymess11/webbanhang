@@ -23,7 +23,6 @@ export const ButtonMore = styled(BtnComponent)`
 `
 export const ProductStyle = styled.div`
 display: flex;
-justify-content:center;
 gap:15px;
 margin-top: 30px;
 flex-wrap: wrap;

@@ -26,7 +26,7 @@ export const routes = [
         header: true
     },
     {
-        path:'/:type',
+        path:'/product/:type',
         page:TypeProductPage,
         header: true
     },
@@ -41,7 +41,7 @@ export const routes = [
         header: false
     },
     {
-        path:'/productdetail',
+        path:'/productdetail/:id',
         page:ProductDetailPage,
         header: true
     },

@@ -1,12 +1,15 @@
 import React from 'react'
 import ProductDetailComponent from '../../components/ProductDetailComponent/ProductDetailComponent'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 const ProductDetailPage = () => {
+  const {id} = useParams()
+  const navigate = useNavigate()
   return (
     <div style={{padding:'0 120px',backgroundColor:'#DDDDDD'}}>
-      <h4>trang chủ</h4>
+      <h2><span style={{cursor:'pointer'}} onClick={()=>{navigate('/')}}>Trang chủ -</span>Chi tiết</h2>
         <div style={{paddingBottom:'30px'}}>
-        <ProductDetailComponent />
+        <ProductDetailComponent idProduct = {id}/>
         </div>
     </div>
   )

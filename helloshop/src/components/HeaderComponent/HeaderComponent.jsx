@@ -12,8 +12,10 @@ import {
 import BtnSearch from '../BtnSearch/BtnSearch';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { searchProduct } from '../../redux/slide/counterSlice'
 const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
   const dispatch = useDispatch()
+  const [search,setSearch] = useState('')
   const [name,setName] = useState('')
   const [avatar,setAvatar] = useState('')
   const navigate = useNavigate()
@@ -39,7 +41,10 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
       <Popup onClick={handleLogout}>Đăng xuất</Popup>
     </div>
   );
-
+  const onSearch=(e)=>{
+    setSearch(e.target.value)
+    dispatch(searchProduct(e.target.value))
+  }
   return (
     <div>
       <WrapperHeader gutter={20}style={{alignItems:'center',justifyContent:isHiddenCart && isHiddenSearch?'space-between':'unset'}}>
@@ -52,6 +57,7 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
           size = "large"
           text = "Tìm kiếm"
           placeholder="Tìm kiếm sản phẩm"
+          onChange={onSearch}
           />
           </Col>
       )}
@@ -84,7 +90,7 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
          </AccountHeader>
          <TextHeader>
           {!isHiddenCart && (
-            <div>
+            <div onClick={()=>navigate('/order')} style={{cursor:'pointer'}}>
             <Badge count={4} size='small'>
             <ShoppingCartOutlined style={{fontSize:'30px'}}/>
            </Badge>
