@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import InputForm from '../../components/InputForm/InputForm'
 import BtnComponent from '../../components/BtnComponent/BtnComponent'
 import { Divider } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {useMutation} from '@tanstack/react-query'
 import * as UserService from '../../services/UserService'
 import { useMutationHK } from '../../hook/useMutaionHK'
@@ -13,6 +13,7 @@ import {useDispatch} from 'react-redux'
 import { updateUser } from '../../redux/slide/userSlide'
 
 const SignInPage = () => {
+  const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const mutation = useMutationHK(
@@ -22,8 +23,14 @@ const SignInPage = () => {
   const {data,isSuccess,isError} = mutation
   useEffect(()=>{
     if(isSuccess){
-      message.success()
-      navigate('/')
+      if(location?.state){
+        message.success()
+        navigate(location?.state)
+      }else{
+        
+        message.success()
+        navigate('/')
+      }
       localStorage.setItem('access_token',JSON.stringify(data?.access_token))
       if(data?.access_token){
         const decoded = jwtDecode(data?.access_token);

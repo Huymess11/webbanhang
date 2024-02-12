@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchProduct } from '../../redux/slide/counterSlice'
 const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
   const dispatch = useDispatch()
+  const order = useSelector((state)=>state.order)
   const [search,setSearch] = useState('')
   const [name,setName] = useState('')
   const [avatar,setAvatar] = useState('')
@@ -91,7 +92,7 @@ const HeaderComponent = ({isHiddenSearch = false, isHiddenCart = false}) => {
          <TextHeader>
           {!isHiddenCart && (
             <div onClick={()=>navigate('/order')} style={{cursor:'pointer'}}>
-            <Badge count={4} size='small'>
+            <Badge count={order?.orderItems?.length} size='small'>
             <ShoppingCartOutlined style={{fontSize:'30px'}}/>
            </Badge>
            <span style={{fontSize:'16px'}}>Giỏ hàng</span>
