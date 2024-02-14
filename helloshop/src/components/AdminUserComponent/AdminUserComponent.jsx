@@ -91,7 +91,7 @@ const AdminUserComponent = () => {
     }
   )
   const getAllUser = async()=>{
-    const res = await UserService.getAllUser()
+    const res = await UserService.getAllUser(user?.access_token)
     return res
   }
   const {data:dataUpdate,isSuccess:isSuccessUpdate,isError:isErrorUpdate} = mutationUpdate
@@ -239,6 +239,7 @@ const AdminUserComponent = () => {
       phone: '',
       isAdmin: false,
     })
+    form.resetFields()
   };
   useEffect(()=>{
     

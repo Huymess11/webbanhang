@@ -15,7 +15,6 @@ import * as  UserService from '../../services/UserService'
 import * as message from '../../components/MessageComponent/MessageComponent'
 import { updateUser } from '../../redux/slide/userSlide';
 import { useNavigate } from 'react-router-dom';
-import StepComponent from '../../components/StepComponent/StepComponent';
 import BtnComponent from '../../components/BtnComponent/BtnComponent';
 import ConfirmComponent from '../../components/ConfirmComponent/ConfirmComponent';
 import { WrapperInputNumber } from '../../components/ProductDetailComponent/style';
@@ -141,7 +140,7 @@ const OrderPage = () => {
     }else if(!user?.phone || !user?.address || !user?.name || !user?.city) {
       setIsOpenModalUpdateInfo(true)
     }else {
-      navigate('/payment')
+      
     } 
   }
 
@@ -173,11 +172,15 @@ const OrderPage = () => {
     const {name, address,city, phone} = stateUserDetails
     if(name && address && city && phone){
       mutationUpdate.mutate({ id: user?.id, token: user?.access_token, ...stateUserDetails }, {
+        
         onSuccess: () => {
           dispatch(updateUser({name, address,city, phone}))
           setIsOpenModalUpdateInfo(false)
         }
       })
+    console.log('token',user?.access_token)
+    console.log('id',user?.id)
+
     }
   }
 
@@ -269,7 +272,6 @@ const OrderPage = () => {
                 <span>Tổng tiền</span>
                 <span style={{display:'flex', flexDirection: 'column'}}>
                   <span style={{color: 'rgb(254, 56, 52)', fontSize: '24px', fontWeight: 'bold'}}>{convertPrice(totalPriceMemo)}</span>
-                  <span style={{color: '#000', fontSize: '11px'}}>(Đã bao gồm VAT nếu có)</span>
                 </span>
               </WrapperTotal>
             </div>
@@ -299,21 +301,21 @@ const OrderPage = () => {
             form={form}
           >
             <Form.Item
-              label="Name"
+              label="Tên"
               name="name"
               rules={[{ required: true, message: 'Please input your name!' }]}
             >
               <InputComponent value={stateUserDetails['name']} onChange={handleOnchangeDetails} name="name" />
             </Form.Item>
             <Form.Item
-              label="City"
+              label="Thành phố"
               name="city"
               rules={[{ required: true, message: 'Please input your city!' }]}
             >
               <InputComponent value={stateUserDetails['city']} onChange={handleOnchangeDetails} name="city" />
             </Form.Item>
             <Form.Item
-              label="Phone"
+              label="Số ĐT"
               name="phone"
               rules={[{ required: true, message: 'Please input your  phone!' }]}
             >
@@ -321,7 +323,7 @@ const OrderPage = () => {
             </Form.Item>
 
             <Form.Item
-              label="Adress"
+              label="Địa chỉ"
               name="address"
               rules={[{ required: true, message: 'Please input your  address!' }]}
             >
